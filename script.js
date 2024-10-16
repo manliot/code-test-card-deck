@@ -209,6 +209,7 @@ if (limit) deck.limit(limit);
 const sort = queryParams.get("sort");
 if (sort === "asc" || sort === "desc") {
   deck.sort();
+  if (sort === "desc") deck.possibleCards.reverse();
 }
 
 // draw the cards if something is filtered
