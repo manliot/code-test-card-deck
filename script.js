@@ -180,11 +180,38 @@ const deck = new CardDeck(".deck", ".hand");
 // Take a look at the deck object and its methods.
 console.log(deck);
 
-//get queryParams
+// Get queryParams
 const queryParams = new URLSearchParams(window.location.search);
-const cards = queryParams.get("cards")?.split(" ");
-const suits = queryParams.get("suits")?.split(" ");
-const ranks = queryParams.get("ranks")?.split(" ");
-const limit = queryParams.get("limit");
 
-console.log({ cards, suits, ranks, limit });
+const cardPropByParam = {
+  cards: "id",
+  suits: "suit",
+  ranks: "rank",
+  limit: "limit",
+  sort: "sort",
+};
+
+let canDraw = false;
+const paramKeys = queryParams.keys();
+
+// iterate params to  filter by card property
+paramKeys.forEach((key) => {
+  if (key === "limit" || key === "sort") return;
+  canDraw = true;
+  const cardProp = cardPropByParam[key];
+  values = queryParams.get(key);
+  deck.filter(cardProp, values);
+});
+
+const limit = queryParams.get("limit");
+if (limit) deck.limit(limit);
+
+const sort = queryParams.get("sort");
+if (sort === "asc" || sort === "desc") {
+  deck.sort();
+}
+
+// draw the cards if something is filtered
+if (canDraw) {
+  deck.drawFiltered();
+}
