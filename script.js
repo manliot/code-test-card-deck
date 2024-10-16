@@ -179,3 +179,12 @@ const deck = new CardDeck(".deck", ".hand");
 
 // Take a look at the deck object and its methods.
 console.log(deck);
+
+//get queryParams
+const queryParams = new URLSearchParams(window.location.search);
+const cards = queryParams.get("cards")?.split(" ");
+const suits = queryParams.get("suits")?.split(" ");
+const ranks = queryParams.get("ranks")?.split(" ");
+const limit = queryParams.get("limit");
+
+console.log({ cards, suits, ranks, limit });
